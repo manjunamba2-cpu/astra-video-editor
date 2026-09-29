@@ -16,16 +16,64 @@
 
     <!-- Internal Stylesheet -->
     <style>
-        body { font-family: sans-serif; background-color: #0b0f19; color: #ffffff; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 0 auto; background: #111827; padding: 20px; border-radius: 12px; }
-        h1 { color: #38bdf8; }
-        .btn { display: inline-block; background: #0284c7; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; }
-        .btn:hover { background: #0369a1; }
-        .preview-box { background: #0f172a; border: 2px dashed #1e293b; padding: 40px; text-align: center; border-radius: 8px; margin-top: 20px; transition: all 0.3s ease; }
+        body { font-family: sans-serif; background-color: #0b0f19; color: #ffffff; margin: 0; padding: 15px; }
+        .container { max-width: 900px; margin: 0 auto; background: #111827; padding: 20px; border-radius: 12px; box-shadow: 0 4px 25px rgba(0,0,0,0.6); }
+        h1 { color: #38bdf8; margin-top: 0; margin-bottom: 5px; font-size: 24px; }
+        .tagline { color: #9ca3af; font-size: 13px; margin-bottom: 15px; }
+        
+        /* Media Intake Grid Section */
+        .intake-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 15px; }
+        .preview-box { background: #0f172a; border: 2px dashed #1e293b; padding: 15px 10px; text-align: center; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+        .box-video { border-color: #0284c7; }
+        .box-music { border-color: #16a34a; }
+        .box-camera { background: #7f1d1d; border-color: #f87171; color: #fca5a5; }
+
+        /* Full Production Video Studio Panel Layout */
+        .studio-panel { display: none; margin-top: 20px; padding-top: 20px; border-top: 2px solid #1e293b; opacity: 0; transition: opacity 0.5s ease; }
+        
+        /* Dual Monitor Section Setup */
+        .monitors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .monitor-section { display: flex; flex-direction: column; align-items: center; background: #000; padding: 8px; border-radius: 8px; border: 1px solid #1e293b; position: relative; }
+        .video-preview-window { width: 100%; height: 180px; background: #000; object-fit: contain; border-radius: 4px; }
+        .monitor-label { font-size: 11px; color: #38bdf8; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; width: 100%; text-align: left; }
+        
+        /* Dynamic Subtitle Banner Element Overlay */
+        .live-subtitle-box { position: absolute; bottom: 55px; left: 10px; right: 10px; background: rgba(0, 0, 0, 0.75); color: #fffde7; padding: 6px; border-radius: 4px; text-align: center; font-size: 12px; font-weight: bold; border-left: 3px solid #eab308; pointer-events: none; display: none; }
+
+        /* Monitor Media Controls Bar */
+        .player-controls { display: flex; gap: 15px; justify-content: center; margin-top: 10px; width: 100%; border-top: 1px solid #111827; padding-top: 8px; }
+        .ctrl-btn { background: none; border: none; color: #38bdf8; font-size: 14px; cursor: pointer; }
+        .time-display { font-family: monospace; font-size: 11px; color: #9ca3af; align-self: center; margin-left: auto; }
+
+        /* General UI Options Styling */
+        .section-title { font-size: 15px; color: #38bdf8; margin: 15px 0 8px 0; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+        .action-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-bottom: 15px; }
+        .btn-action { background: #1f2937; color: white; border: 1px solid #1e293b; padding: 10px 5px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .btn-ai-magic { background: #1e1b4b; border: 1px solid #a21caf; color: #f472b6; }
+        .btn-export { background: #0284c7; border: 1px solid #38bdf8; grid-column: span 2; }
+
+        /* Social Media Network Interface Layout */
+        .social-network-dock { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 12px; margin-top: 10px; }
+        .social-textarea { background: #111827; border: 1px solid #1e293b; color: #fff; padding: 8px; border-radius: 6px; font-size: 12px; resize: none; width: 100%; box-sizing: border-box; margin-bottom: 8px; }
+        .social-buttons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .btn-social-publish { padding: 10px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; color: white; border: none; text-align: center; }
+        .social-status-log { font-size: 11px; font-family: monospace; color: #34d399; margin-top: 8px; display: none; background: #111827; padding: 6px; border-radius: 4px; }
+
+        /* Multi-Track Canvas Timeline Studio Workspace */
+        .timeline-container { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 10px; overflow-x: auto; margin-top: 10px; }
+        .timeline-scrubber-bar { width: 100%; margin-bottom: 10px; accent-color: #38bdf8; }
+        .track-row { display: flex; height: 36px; align-items: center; border-bottom: 1px solid #1e293b; font-size: 11px; margin-bottom: 4px; background: rgba(17, 24, 39, 0.6); border-radius: 4px; overflow: hidden; }
+        .track-row:last-child { border-bottom: none; margin-bottom: 0; }
+        .track-label { width: 80px; min-width: 80px; background: #1e293b; height: 100%; display: flex; align-items: center; padding-left: 6px; font-weight: bold; color: #9ca3af; border-right: 1px solid #1e293b; }
+        .track-block-fill { flex-grow: 1; height: 80%; margin: 0 10px; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; font-weight: 500; font-size: 11px; white-space: nowrap; }
+        .video-fill { background: rgba(2, 132, 199, 0.3); border: 1px solid #0284c7; color: #bae6fd; }
+        .movie-fill { background: rgba(185, 28, 28, 0.3); border: 1px dashed #ef4444; color: #fca5a5; }
+        .ai-fill { background: rgba(162, 28, 175, 0.4); border: 1px dashed #f472b6; color: #fbcfe8; }
+        .audio-fill { background: rgba(22, 163, 74, 0.3); border: 1px solid #16a34a; color: #bbf7d0; }
+        .text-fill { background: rgba(217, 70, 239, 0.3); border: 1px solid #d946ef; color: #fdf4ff; }
     </style>
 </head>
 <body>
-    <!-- Mobile Rotation Alert Element -->
     <div class="mobile-rotate-overlay">
         <div style="font-size: 40px; margin-bottom: 15px;"></div>
         <h2>Please Rotate Your Device</h2>
@@ -34,49 +82,65 @@
         </p>
     </div>
 
-    <!-- Main Workspace Container -->
     <div class="container">
         <h1>Astra Video Editor Pro</h1>
-        <p>Your studio-grade, multi-track web app workspace is running completely offline.</p>
+        <div class="tagline">Your studio-grade, multi-track web app workspace is running completely offline.</div>
         
-        <!-- Invisible file input helper for mobile gallery access -->
-        <input type="file" id="media-uploader" accept="video/*,audio/*" style="display: none;">
+        <!-- Invisible Native Input Targets -->
+        <input type="file" id="media-uploader" accept="video/*" style="display: none;">
+        <input type="file" id="music-uploader" accept="audio/*" style="display: none;">
 
-        <!-- Interactive App Workspace Window -->
-        <div class="preview-box" id="workspace-trigger" style="cursor: pointer;">
-             <span id="status-text">Widescreen 2.3:1 Multi-Track Timeline & Color Studio Workspace Active</span>
-            <p id="sub-text" style="font-size: 13px; color: #8b949e; margin-top: 10px;">Tap here to load video/audio clips into your timeline</p>
+        <!-- 3-Way Core Intake Ribbon -->
+        <div class="intake-grid">
+            <div class="preview-box box-video" id="workspace-trigger">
+                 Video Import
+                <p id="status-text" style="font-size: 11px; color: #8b949e; margin: 4px 0 0 0;">Tap to load clip</p>
+            </div>
+            
+            <div class="preview-box box-music" id="music-trigger">
+                 Add Audio Mix
+                <p id="music-status-text" style="font-size: 10px; color: #a7f3d0; margin: 4px 0 0 0;">Tap to add track</p>
+            </div>
+
+            <div class="preview-box box-camera" id="camera-rig-trigger">
+                 Movie Maker
+                <p style="font-size: 10px; color: #fca5a5; margin: 4px 0 0 0; font-weight: normal;">Tap to shoot direct</p>
+            </div>
         </div>
-    </div>
 
-    <!-- JavaScript logic engine to handle tap actions -->
-    <script>
-        const workspace = document.getElementById('workspace-trigger');
-        const fileInput = document.getElementById('media-uploader');
-        const statusText = document.getElementById('status-text');
-        const subText = document.getElementById('sub-text');
+        <!--  FULL MULTI-TRACK PRODUCTION CANVAS -->
+        <div class="studio-panel" id="studio-view">
+            
+            <div class="section-title"> Production Dual Monitors</div>
+            <div class="monitors-grid">
+                <!-- Master Output Monitor -->
+                <div class="monitor-section">
+                    <div class="monitor-label">Master Output View</div>
+                    <video id="studio-player" class="video-preview-window" playsinline></video>
+                    
+                    <!--  DYNAMIC SUBTITLE DISPLAY BOX OVERLAY -->
+                    <div class="live-subtitle-box" id="live-subtitle-box">AI Subtitle: Ready...</div>
+                    
+                    <div class="player-controls">
+                        <button class="ctrl-btn" id="play-pause-btn"> Play</button>
+                        <button class="ctrl-btn" id="mute-btn"> Vol</button>
+                        <div class="time-display" id="video-time">00:00 / 00:00</div>
+                    </div>
+                </div>
 
-        // Trigger mobile file browser when user taps the dashed container
-        workspace.addEventListener('click', () => {
-            fileInput.click();
-        });
+                <!-- Live Camera Rig Monitor -->
+                <div class="monitor-section">
+                    <div class="monitor-label"> Live Camera Rig Feed</div>
+                    <video id="camera-preview" class="video-preview-window" autoplay muted playsinline></video>
+                    <div class="player-controls">
+                        <button class="ctrl-btn" id="record-action-btn" style="color:#ef4444; font-weight:bold;"> Start Capture</button>
+                    </div>
+                </div>
+            </div>
 
-        // Listen for when a file is successfully selected
-        fileInput.addEventListener('change', (event) => {
-            const file = event.target.files[0]; // Fixes tracking to grab the single file item
-            if (file) {
-                // Calculate file size in MB
-                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-                
-                // Update workspace UI text values
-                statusText.innerText = `Successfully Staged Track: ${file.name}`;
-                subText.innerText = `File Size: ${fileSizeMB} MB | System Status: Ready to Edit`;
-                
-                // Transform container borders to cyan to acknowledge media intake
-                workspace.style.borderColor = "#38bdf8";
-                workspace.style.background = "#131e36";
-            }
-        });
-    </script>
-</body>
-</html>
+            <!-- Hidden Background Audio Player Node for Sync Mixes -->
+            <audio id="timeline-bg-music" loop></audio>
+
+            <div class="section-title"> Professional Options</div>
+            <div class="action-bar">
+                <button class="btn-action btn-ai-magic" id="ai-engine-trigger"><span></span>AI Smart Cut</button>
