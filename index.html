@@ -21,15 +21,11 @@
         h1 { color: #38bdf8; }
         .btn { display: inline-block; background: #0284c7; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; }
         .btn:hover { background: #0369a1; }
-        .preview-box { background: #0f172a; border: 2px dashed #1e293b; padding: 40px; text-align: center; border-radius: 8px; margin-top: 20px; }
+        .preview-box { background: #0f172a; border: 2px dashed #1e293b; padding: 40px; text-align: center; border-radius: 8px; margin-top: 20px; transition: all 0.3s ease; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Astra Video Editor Pro</h1>
-        <p>Your studio-grade, multi-track web app workspace is running completely offline.</p>
-        
-        <!-- Mobile Rotation Alert Element -->
+    <!-- Mobile Rotation Alert Element -->
     <div class="mobile-rotate-overlay">
         <div style="font-size: 40px; margin-bottom: 15px;"></div>
         <h2>Please Rotate Your Device</h2>
@@ -37,10 +33,50 @@
             Astra Video Editor Pro requires a wider screen. Flip your phone sideways to unlock the studio workspace!
         </p>
     </div>
-        <!-- App Workspace Preview Window -->
-        <div class="preview-box">
-             Widescreen 2.3:1 Multi-Track Timeline & Color Studio Workspace Active
+
+    <!-- Main Workspace Container -->
+    <div class="container">
+        <h1>Astra Video Editor Pro</h1>
+        <p>Your studio-grade, multi-track web app workspace is running completely offline.</p>
+        
+        <!-- Invisible file input helper for mobile gallery access -->
+        <input type="file" id="media-uploader" accept="video/*,audio/*" style="display: none;">
+
+        <!-- Interactive App Workspace Window -->
+        <div class="preview-box" id="workspace-trigger" style="cursor: pointer;">
+             <span id="status-text">Widescreen 2.3:1 Multi-Track Timeline & Color Studio Workspace Active</span>
+            <p id="sub-text" style="font-size: 13px; color: #8b949e; margin-top: 10px;">Tap here to load video/audio clips into your timeline</p>
         </div>
     </div>
+
+    <!-- JavaScript logic engine to handle tap actions -->
+    <script>
+        const workspace = document.getElementById('workspace-trigger');
+        const fileInput = document.getElementById('media-uploader');
+        const statusText = document.getElementById('status-text');
+        const subText = document.getElementById('sub-text');
+
+        // Trigger mobile file browser when user taps the dashed container
+        workspace.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // Listen for when a file is successfully selected
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0]; // Fixes tracking to grab the single file item
+            if (file) {
+                // Calculate file size in MB
+                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                
+                // Update workspace UI text values
+                statusText.innerText = `Successfully Staged Track: ${file.name}`;
+                subText.innerText = `File Size: ${fileSizeMB} MB | System Status: Ready to Edit`;
+                
+                // Transform container borders to cyan to acknowledge media intake
+                workspace.style.borderColor = "#38bdf8";
+                workspace.style.background = "#131e36";
+            }
+        });
+    </script>
 </body>
 </html>
