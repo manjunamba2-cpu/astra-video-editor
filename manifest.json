@@ -1,0 +1,17 @@
+{
+  "short_name": "Astra Editor",
+  "name": "Astra Video Editor Pro: AI Cuts",
+  "icons": [
+    {
+      "src": "astra_icon_512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#0f172a",
+  "theme_color": "#38bdf8",
+  "display": "fullscreen",
+  "orientation": "landscape"
+}
