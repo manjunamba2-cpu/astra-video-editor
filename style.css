@@ -1,0 +1,26 @@
+/* Custom Device Rotation Warning Layout */
+.mobile-rotate-overlay {
+    display: none;
+}
+
+/* Activate overlay only when held vertically on mobile phones */
+@media (orientation: portrait) and (max-width: 768px) {
+    .mobile-rotate-overlay {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 0; left: 0; width: 100vw; height: 100vh;
+        background-color: #0b0f19;
+        color: #38bdf8;
+        z-index: 9999;
+        text-align: center;
+        padding: 20px;
+        font-family: sans-serif;
+    }
+    
+    /* Safely tuck away the main content panels until flipped sideways */
+    .container { 
+        display: none !important; }
+}

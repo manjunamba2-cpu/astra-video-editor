@@ -2,22 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Astra Video Editor Pro: AI Cuts</title>
-    
+
     <!-- PWA Settings -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#38bdf8">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
+    <!-- Linked External Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Internal Stylesheet -->
     <style>
-        body { font-family: sans-serif; background-color: #0f172a; color: #f8fafc; margin: 0; padding: 20px; text-align: center; }
-        .container { max-width: 800px; margin: 0 auto; background: #1e293b; padding: 30px; border-radius: 16px; border: 1px solid #334155; }
+        body { font-family: sans-serif; background-color: #0b0f19; color: #ffffff; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: #111827; padding: 20px; border-radius: 12px; }
         h1 { color: #38bdf8; }
-        .btn { display: inline-block; background: #0284c7; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; border: none; cursor: pointer; margin: 10px; }
+        .btn { display: inline-block; background: #0284c7; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; }
         .btn:hover { background: #0369a1; }
-        .preview-box { background: #0f172a; border: 2px dashed #475569; padding: 60px 20px; border-radius: 12px; margin: 20px 0; font-size: 1.1rem; color: #94a3b8; }
+        .preview-box { background: #0f172a; border: 2px dashed #1e293b; padding: 40px; text-align: center; border-radius: 8px; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -25,61 +29,18 @@
         <h1>Astra Video Editor Pro</h1>
         <p>Your studio-grade, multi-track web app workspace is running completely offline.</p>
         
+        <!-- Mobile Rotation Alert Element -->
+    <div class="mobile-rotate-overlay">
+        <div style="font-size: 40px; margin-bottom: 15px;"></div>
+        <h2>Please Rotate Your Device</h2>
+        <p style="color: #8b949e; max-width: 280px; margin-top: 8px; margin-left: auto; margin-right: auto;">
+            Astra Video Editor Pro requires a wider screen. Flip your phone sideways to unlock the studio workspace!
+        </p>
+    </div>
         <!-- App Workspace Preview Window -->
         <div class="preview-box">
-            🎬 Widescreen 2.3:1 Multi-Track Timeline & Color Studio Workspace Active
+             Widescreen 2.3:1 Multi-Track Timeline & Color Studio Workspace Active
         </div>
-
-        <!-- Custom Installation Button Trigger -->
-        <button id="custom-install-btn" class="btn" style="display: none;">📥 Install App to Device (Free)</button>
     </div>
-
-    <!-- iPhone Onboarding Banner Overlay -->
-    <div id="ios-install-banner" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 15px 25px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); width: 90%; max-width: 400px; border: 1px solid #38bdf8; text-align: left;">
-        <p style="margin: 0 0 10px 0; font-size: 14px; text-align: center; font-weight: bold;">📱 Install Astra Editor on iPhone</p>
-        <div style="font-size: 13px; color: #94a3b8; line-height: 1.4;">
-            1. Tap the <strong>Share</strong> icon button at the bottom of Safari.<br>
-            2. Scroll down the menu list and tap <strong>"Add to Home Screen"</strong>.
-        </div>
-        <button onclick="document.getElementById('ios-install-banner').style.display='none'" style="margin-top: 10px; width: 100%; background: #0284c7; border: none; color: white; padding: 8px; border-radius: 6px; font-weight: bold;">Got it</button>
-    </div>
-
-    <script>
-        // 1. Register PWA Service Worker Engine
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js')
-                    .then(reg => console.log('Astra Engine Active!', reg.scope))
-                    .catch(err => console.log('PWA Error:', err));
-            });
-        }
-
-        // 2. Android Custom Install Prompt Automation
-        let deferredPrompt;
-        const installBtn = document.getElementById('custom-install-btn');
-
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            installBtn.style.display = 'inline-block';
-        });
-
-        installBtn.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User choice: ${outcome}`);
-                deferredPrompt = null;
-                installBtn.style.display = 'none';
-            }
-        });
-
-        // 3. iPhone iOS Environment Visual Trigger
-        const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-        if (isIos && !isStandalone) {
-            document.getElementById('ios-install-banner').style.display = 'block';
-        }
-    </script>
 </body>
 </html>
