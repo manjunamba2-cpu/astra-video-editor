@@ -86,14 +86,15 @@
         <h1>Astra Video Editor Pro</h1>
         <div class="tagline">Your studio-grade, multi-track web app workspace is running completely offline.</div>
         
-        <!-- Invisible Native Input Targets -->
+        <!-- Invisible Native Ingestion Targets -->
         <input type="file" id="media-uploader" accept="video/*" style="display: none;">
         <input type="file" id="music-uploader" accept="audio/*" style="display: none;">
 
-        <!-- 3-Way Core Intake Ribbon -->
+        <!-- 3-Way Core Intake Entry Ribbon -->
         <div class="intake-grid">
             <div class="preview-box box-video" id="workspace-trigger">
-                 Video Import
+                <!-- Direct Text Change -->
+                 Analyse Video
                 <p id="status-text" style="font-size: 11px; color: #8b949e; margin: 4px 0 0 0;">Tap to load clip</p>
             </div>
             
@@ -104,16 +105,16 @@
 
             <div class="preview-box box-camera" id="camera-rig-trigger">
                  Movie Maker
-                <p style="font-size: 10px; color: #fca5a5; margin: 4px 0 0 0; font-weight: normal;">Tap to shoot direct</p>
+                <p id="camera-status-text" style="font-size: 10px; color: #fca5a5; margin: 4px 0 0 0; font-weight: normal;">Tap to shoot direct</p>
             </div>
         </div>
 
         <!--  FULL MULTI-TRACK PRODUCTION CANVAS -->
         <div class="studio-panel" id="studio-view">
             
-            <div class="section-title"> Production Dual Monitors</div>
+            <div class="section-title"> Production Dual Viewport Monitors</div>
             <div class="monitors-grid">
-                <!-- Master Output Monitor -->
+                <!-- Master Output Screen Monitor -->
                 <div class="monitor-section">
                     <div class="monitor-label">Master Output View</div>
                     <video id="studio-player" class="video-preview-window" playsinline></video>
@@ -143,4 +144,3 @@
 
             <div class="section-title"> Professional Options</div>
             <div class="action-bar">
-                <button class="btn-action btn-ai-magic" id="ai-engine-trigger"><span></span>AI Smart Cut</button>
