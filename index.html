@@ -9,7 +9,6 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     
-    <!-- Self-Contained Stylesheet to Stop External CSS Overrides -->
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -39,7 +38,6 @@
             margin-bottom: 25px;
         }
         
-        /* GUARANTEED DISPLAY: Explicit grid layout with fixed fallback heights */
         .intake-grid {
             display: grid !important;
             grid-template-columns: repeat(3, 1fr) !important;
@@ -49,7 +47,6 @@
             clear: both;
         }
         
-        /* Preview Box adjustments to ensure clear visual presence */
         .preview-box {
             background: #0f172a !important;
             border: 2px dashed #1e293b;
@@ -75,7 +72,6 @@
         .box-music { border-color: #16a34a !important; color: #4ade80 !important; }
         .box-camera { background: #7f1d1d !important; border-color: #f87171 !important; color: #fca5a5 !important; }
         
-        /* Studio Workspace Panel Configuration */
         .studio-panel {
             display: none;
             margin-top: 25px;
@@ -207,7 +203,6 @@
             background: #0369a1;
         }
         
-        /* Multi-Track Timeline Canvas */
         .timeline-container {
             background: #0f172a;
             border: 1px solid #1e293b;
@@ -267,7 +262,6 @@
         .audio-fill { background: rgba(22, 163, 74, 0.3); border: 1px solid #16a34a; color: #bbf7d0; }
         .text-fill { background: rgba(217, 70, 239, 0.3); border: 1px solid #d946ef; color: #fdf4ff; }
         
-        /* Direct Matrix Console Log Output */
         .social-network-dock {
             background: #0f172a;
             border: 1px solid #1e293b;
@@ -314,4 +308,16 @@
             border: 1px solid #1e293b;
         }
         
-        /* Completely isolate hidden browser elements away from grid render layers */
+        .hidden-uploader-node {
+            display: none !important;
+            visibility: hidden !important;
+            position: absolute !important;
+            z-index: -9999 !important;
+            width: 1px !important;
+            height: 1px !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Astra Video Editor Pro</h1>
