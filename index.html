@@ -21,9 +21,31 @@
         h1 { color: #38bdf8; margin-top: 0; margin-bottom: 5px; font-size: 24px; }
         .tagline { color: #9ca3af; font-size: 13px; margin-bottom: 15px; }
         
-        /* Media Intake Grid Section */
-        .intake-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .preview-box { background: #0f172a; border: 2px dashed #1e293b; padding: 15px 10px; text-align: center; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; }
+        /* FIXED: Media Intake Grid Section - Forces 3 equal columns always */
+        .intake-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 10px; 
+            margin-bottom: 15px; 
+            width: 100%;
+        }
+        
+        /* FIXED: Preview Box adjustments to prevent text wrapping constraints on small devices */
+        .preview-box { 
+            background: #0f172a; 
+            border: 2px dashed #1e293b; 
+            padding: 15px 5px; 
+            text-align: center; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
         .box-video { border-color: #0284c7; }
         .box-music { border-color: #16a34a; }
         .box-camera { background: #7f1d1d; border-color: #f87171; color: #fca5a5; }
@@ -75,7 +97,7 @@
 </head>
 <body>
     <div class="mobile-rotate-overlay">
-        <div style="font-size: 40px; margin-bottom: 15px;"></div>
+        <div style="font-size: 40px; margin-bottom: 15px;"> </div>
         <h2>Please Rotate Your Device</h2>
         <p style="color: #8b949e; max-width: 280px; margin-top: 8px; margin-left: auto; margin-right: auto;">
             Astra Video Editor Pro requires a wider screen. Flip your phone sideways to unlock the studio workspace!
@@ -93,53 +115,20 @@
         <!-- 3-Way Core Intake Entry Ribbon -->
         <div class="intake-grid">
             <div class="preview-box box-video" id="workspace-trigger">
-                 Analyse Video
+                Analyse Video
                 <p id="status-text" style="font-size: 11px; color: #8b949e; margin: 4px 0 0 0;">Tap to load clip</p>
             </div>
             
             <div class="preview-box box-music" id="music-trigger">
-                 Add Audio Mix
+                Add Audio Mix
                 <p id="music-status-text" style="font-size: 10px; color: #a7f3d0; margin: 4px 0 0 0;">Tap to add track</p>
             </div>
 
             <div class="preview-box box-camera" id="camera-rig-trigger">
-                 Movie Maker
+                Movie Maker
                 <p id="camera-status-text" style="font-size: 10px; color: #fca5a5; margin: 4px 0 0 0; font-weight: normal;">Tap to shoot direct</p>
             </div>
         </div>
-
-        <!--  FULL MULTI-TRACK PRODUCTION CANVAS -->
-        <div class="studio-panel" id="studio-view">
-            
-            <div class="section-title"> Production Dual Viewport Monitors</div>
-            <div class="monitors-grid">
-                <!-- Master Output Screen Monitor -->
-                <div class="monitor-section">
-                    <div class="monitor-label">Master Output View</div>
-                    <video id="studio-player" class="video-preview-window" playsinline></video>
-                    
-                    <!--  DYNAMIC SUBTITLE DISPLAY BOX OVERLAY -->
-                    <div class="live-subtitle-box" id="live-subtitle-box">AI Subtitle: Ready...</div>
-                    
-                    <div class="player-controls">
-                        <button class="ctrl-btn" id="play-pause-btn"> Play</button>
-                        <button class="ctrl-btn" id="mute-btn"> Vol</button>
-                        <div class="time-display" id="video-time">00:00 / 00:00</div>
-                    </div>
-                </div>
-
-                <!-- Live Camera Rig Monitor -->
-                <div class="monitor-section">
-                    <div class="monitor-label"> Live Camera Rig Feed</div>
-                    <video id="camera-preview" class="video-preview-window" autoplay muted playsinline></video>
-                    <div class="player-controls">
-                        <button class="ctrl-btn" id="record-action-btn" style="color:#ef4444; font-weight:bold;"> Start Capture</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Hidden Background Audio Player Node for Sync Mixes -->
-            <audio id="timeline-bg-music" loop></audio>
-
-            <div class="section-title"> Professional Options</div>
-            <div class="action-bar">
+    </div>
+</body>
+</html>
