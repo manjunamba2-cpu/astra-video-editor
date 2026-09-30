@@ -293,6 +293,15 @@
         .ai-fill { background: rgba(162, 28, 175, 0.4); border: 1px dashed #f472b6; color: #fbcfe8; }
         .audio-fill { background: rgba(22, 163, 74, 0.3); border: 1px solid #16a34a; color: #bbf7d0; }
         .text-fill { background: rgba(217, 70, 239, 0.3); border: 1px solid #d946ef; color: #fdf4ff; }
+        
+        /* HARD OVERRIDE FIX: Insulate screen layout from browser file nodes */
+        #media-uploader, #music-uploader {
+            display: none !important;
+            opacity: 0 !important;
+            position: absolute !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
     </style>
 </head>
 <body>
@@ -300,14 +309,6 @@
         <h1>Astra Video Editor Pro</h1>
         <div class="tagline">Your studio-grade, multi-track web app workspace is running completely offline.</div>
         
-        <!-- Invisible Native Ingestion Targets -->
+        <!-- Raw Inputs Kept Injected and Force-Hidden Via Styles Above -->
         <input type="file" id="media-uploader" accept="video/*">
-        <input type="file" id="music-uploader" accept="audio/*" style="display: none;">
-        
-        <!-- Camera Video Stream Object Capture Element -->
-        <video id="camera-stream-fallback" autoplay playsinline style="display: none;"></video>
-
-        <!-- 3-Way Core Intake Entry Ribbon -->
-        <div class="intake-grid">
-            <div class="preview-box box-video" id="workspace-trigger">
-                Analyse Video
+        <input type="file" id="music-uploader" accept="audio/*">
