@@ -5,16 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Astra Video Editor Pro: AI Cuts</title>
     <!-- PWA Settings -->
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#38bdf8">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <!-- Linked External Stylesheet -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Internal Stylesheet -->
+    
+    <!-- Self-Contained Stylesheet to Stop External CSS Overrides -->
     <style>
         body {
-            font-family: sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #0b0f19;
             color: #ffffff;
             margin: 0;
@@ -22,11 +20,12 @@
         }
         .container {
             max-width: 900px;
-            margin: 0 auto;
+            margin: 20px auto;
             background: #111827;
-            padding: 20px;
+            padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 25px rgba(0,0,0,0.6);
+            box-sizing: border-box;
         }
         h1 {
             color: #38bdf8;
@@ -37,58 +36,66 @@
         .tagline {
             color: #9ca3af;
             font-size: 13px;
-            margin-bottom: 15px;
+            margin-bottom: 25px;
         }
-        /* Media Intake Grid Section - Forces 3 equal columns always */
+        
+        /* GUARANTEED DISPLAY: Explicit grid layout with fixed fallback heights */
         .intake-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 15px;
-            width: 100%;
+            display: grid !important;
+            grid-template-columns: repeat(3, 1fr) !important;
+            gap: 15px !important;
+            margin-bottom: 20px !important;
+            width: 100% !important;
+            clear: both;
         }
-        /* Preview Box adjustments to prevent text wrapping constraints on small devices */
+        
+        /* Preview Box adjustments to ensure clear visual presence */
         .preview-box {
-            background: #0f172a;
+            background: #0f172a !important;
             border: 2px dashed #1e293b;
-            padding: 15px 5px;
+            padding: 20px 10px !important;
+            min-height: 90px !important;
             text-align: center;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 13px;
+            transition: all 0.2s ease;
+            font-size: 14px;
             font-weight: bold;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
         }
-        .box-video { border-color: #0284c7; }
-        .box-music { border-color: #16a34a; }
-        .box-camera { background: #7f1d1d; border-color: #f87171; color: #fca5a5; }
+        .preview-box:hover {
+            transform: translateY(-2px);
+            background: #1e293b !important;
+        }
+        .box-video { border-color: #0284c7 !important; color: #38bdf8 !important; }
+        .box-music { border-color: #16a34a !important; color: #4ade80 !important; }
+        .box-camera { background: #7f1d1d !important; border-color: #f87171 !important; color: #fca5a5 !important; }
         
-        /* Full Production Video Studio Panel Layout */
+        /* Studio Workspace Panel Configuration */
         .studio-panel {
             display: none;
-            margin-top: 20px;
-            padding-top: 20px;
+            margin-top: 25px;
+            padding-top: 25px;
             border-top: 2px solid #1e293b;
             opacity: 0;
             transition: opacity 0.5s ease;
         }
-        /* Dual Monitor Section Setup */
         .monitors-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         .monitor-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             background: #000;
-            padding: 8px;
+            padding: 10px;
             border-radius: 8px;
             border: 1px solid #1e293b;
             position: relative;
@@ -109,7 +116,6 @@
             width: 100%;
             text-align: left;
         }
-        /* Dynamic Subtitle Banner Element Overlay */
         .live-subtitle-box {
             position: absolute;
             bottom: 55px;
@@ -126,89 +132,160 @@
             pointer-events: none;
             display: none;
         }
-        /* Monitor Media Controls Bar */
         .player-controls {
             display: flex;
             gap: 15px;
             justify-content: center;
             margin-top: 10px;
             width: 100%;
-            border-top: 1px solid #111827;
-            padding-top: 8px;
+            border-top: 1px solid #1e293b;
+            padding-top: 12px;
+            margin-bottom: 20px;
         }
         .ctrl-btn {
-            background: none;
-            border: none;
+            background: #1f2937;
+            border: 1px solid #38bdf8;
             color: #38bdf8;
-            font-size: 14px;
+            font-size: 13px;
+            padding: 6px 16px;
+            border-radius: 4px;
             cursor: pointer;
+            font-weight: bold;
+        }
+        .ctrl-btn:hover {
+            background: #38bdf8;
+            color: #0b0f19;
         }
         .time-display {
             font-family: monospace;
-            font-size: 11px;
+            font-size: 12px;
             color: #9ca3af;
             align-self: center;
             margin-left: auto;
         }
-        /* General UI Options Styling */
         .section-title {
-            font-size: 15px;
+            font-size: 14px;
             color: #38bdf8;
-            margin: 15px 0 8px 0;
+            margin: 20px 0 10px 0;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
         .action-bar {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-            gap: 8px;
-            margin-bottom: 15px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
         }
         .btn-action {
             background: #1f2937;
             color: white;
             border: 1px solid #1e293b;
-            padding: 10px 5px;
+            padding: 12px 5px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+        }
+        .btn-action:hover {
+            background: #2d3748;
         }
         .btn-ai-magic {
             background: #1e1b4b;
             border: 1px solid #a21caf;
             color: #f472b6;
         }
+        .btn-ai-magic:hover {
+            background: #311042;
+        }
         .btn-export {
             background: #0284c7;
             border: 1px solid #38bdf8;
-            grid-column: span 2;
         }
-        /* Social Media Network Interface Layout */
+        .btn-export:hover {
+            background: #0369a1;
+        }
+        
+        /* Multi-Track Timeline Canvas */
+        .timeline-container {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+        .timeline-scrubber-bar {
+            width: 100%;
+            margin-bottom: 15px;
+            accent-color: #38bdf8;
+        }
+        .track-row {
+            display: flex;
+            height: 36px;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            font-size: 11px;
+            margin-bottom: 6px;
+            background: rgba(17, 24, 39, 0.6);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .track-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        .track-label {
+            width: 80px;
+            min-width: 80px;
+            background: #1e293b;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            font-weight: bold;
+            color: #9ca3af;
+            border-right: 1px solid #1e293b;
+            box-sizing: border-box;
+        }
+        .track-block-fill {
+            flex-grow: 1;
+            height: 80%;
+            margin: 0 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 10px;
+            font-weight: 500;
+            font-size: 11px;
+            white-space: nowrap;
+            transition: width 0.3s ease;
+        }
+        .video-fill { background: rgba(2, 132, 199, 0.3); border: 1px solid #0284c7; color: #bae6fd; }
+        .movie-fill { background: rgba(185, 28, 28, 0.3); border: 1px dashed #ef4444; color: #fca5a5; }
+        .ai-fill { background: rgba(162, 28, 175, 0.4); border: 1px dashed #f472b6; color: #fbcfe8; }
+        .audio-fill { background: rgba(22, 163, 74, 0.3); border: 1px solid #16a34a; color: #bbf7d0; }
+        .text-fill { background: rgba(217, 70, 239, 0.3); border: 1px solid #d946ef; color: #fdf4ff; }
+        
+        /* Direct Matrix Console Log Output */
         .social-network-dock {
             background: #0f172a;
             border: 1px solid #1e293b;
             border-radius: 8px;
-            padding: 12px;
-            margin-top: 10px;
+            padding: 15px;
+            margin-top: 20px;
         }
         .social-textarea {
             background: #111827;
             border: 1px solid #1e293b;
             color: #fff;
-            padding: 8px;
+            padding: 10px;
             border-radius: 6px;
             font-size: 12px;
             resize: none;
             width: 100%;
             box-sizing: border-box;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
         .social-buttons-grid {
             display: grid;
@@ -229,87 +306,12 @@
             font-size: 11px;
             font-family: monospace;
             color: #34d399;
-            margin-top: 8px;
+            margin-top: 10px;
             display: none;
             background: #111827;
-            padding: 6px;
+            padding: 8px;
             border-radius: 4px;
-        }
-        /* Multi-Track Canvas Timeline Studio Workspace */
-        .timeline-container {
-            background: #0f172a;
             border: 1px solid #1e293b;
-            border-radius: 8px;
-            padding: 10px;
-            overflow-x: auto;
-            margin-top: 10px;
         }
-        .timeline-scrubber-bar {
-            width: 100%;
-            margin-bottom: 10px;
-            accent-color: #38bdf8;
-        }
-        .track-row {
-            display: flex;
-            height: 36px;
-            align-items: center;
-            border-bottom: 1px solid #1e293b;
-            font-size: 11px;
-            margin-bottom: 4px;
-            background: rgba(17, 24, 39, 0.6);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .track-row:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        .track-label {
-            width: 80px;
-            min-width: 80px;
-            background: #1e293b;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding-left: 6px;
-            font-weight: bold;
-            color: #9ca3af;
-            border-right: 1px solid #1e293b;
-        }
-        .track-block-fill {
-            flex-grow: 1;
-            height: 80%;
-            margin: 0 10px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            font-weight: 500;
-            font-size: 11px;
-            white-space: nowrap;
-        }
-        .video-fill { background: rgba(2, 132, 199, 0.3); border: 1px solid #0284c7; color: #bae6fd; }
-        .movie-fill { background: rgba(185, 28, 28, 0.3); border: 1px dashed #ef4444; color: #fca5a5; }
-        .ai-fill { background: rgba(162, 28, 175, 0.4); border: 1px dashed #f472b6; color: #fbcfe8; }
-        .audio-fill { background: rgba(22, 163, 74, 0.3); border: 1px solid #16a34a; color: #bbf7d0; }
-        .text-fill { background: rgba(217, 70, 239, 0.3); border: 1px solid #d946ef; color: #fdf4ff; }
         
-        /* Insulate screen layout from browser native upload items completely */
-        #media-uploader, #music-uploader {
-            display: none !important;
-            opacity: 0 !important;
-            position: absolute !important;
-            width: 0 !important;
-            height: 0 !important;
-            z-index: -9999 !important;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Astra Video Editor Pro</h1>
-        <div class="tagline">Your studio-grade, multi-track web app workspace is running completely offline.</div>
-        
-        <!-- Force Hidden Inputs -->
-        <input type="file" id="media-uploader" accept="video/*">
-        <input type="file" id="music-uploader" accept="audio/*">
+        /* Completely isolate hidden browser elements away from grid render layers */
