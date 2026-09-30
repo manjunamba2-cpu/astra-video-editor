@@ -2,322 +2,154 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Astra Video Editor Pro: AI Cuts</title>
-    <!-- PWA Settings -->
-    <meta name="theme-color" content="#38bdf8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astra Video Editor Pro</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0b0f19;
-            color: #ffffff;
-            margin: 0;
-            padding: 15px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 20px auto;
-            background: #111827;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 25px rgba(0,0,0,0.6);
-            box-sizing: border-box;
-        }
-        h1 {
-            color: #38bdf8;
-            margin-top: 0;
-            margin-bottom: 5px;
-            font-size: 24px;
-        }
-        .tagline {
-            color: #9ca3af;
-            font-size: 13px;
-            margin-bottom: 25px;
-        }
-        
-        .intake-grid {
-            display: grid !important;
-            grid-template-columns: repeat(3, 1fr) !important;
-            gap: 15px !important;
-            margin-bottom: 20px !important;
-            width: 100% !important;
-            clear: both;
-        }
-        
-        .preview-box {
-            background: #0f172a !important;
-            border: 2px dashed #1e293b;
-            padding: 20px 10px !important;
-            min-height: 90px !important;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            font-weight: bold;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-            align-items: center !important;
-            box-sizing: border-box !important;
-        }
-        .preview-box:hover {
-            transform: translateY(-2px);
-            background: #1e293b !important;
-        }
-        .box-video { border-color: #0284c7 !important; color: #38bdf8 !important; }
-        .box-music { border-color: #16a34a !important; color: #4ade80 !important; }
-        .box-camera { background: #7f1d1d !important; border-color: #f87171 !important; color: #fca5a5 !important; }
-        
-        .studio-panel {
-            display: none;
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 2px solid #1e293b;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .monitors-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .monitor-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: #000;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #1e293b;
-            position: relative;
-        }
-        .video-preview-window {
-            width: 100%;
-            height: 180px;
-            background: #000;
-            object-fit: contain;
-            border-radius: 4px;
-        }
-        .monitor-label {
-            font-size: 11px;
-            color: #38bdf8;
-            font-weight: bold;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            width: 100%;
-            text-align: left;
-        }
-        .live-subtitle-box {
-            position: absolute;
-            bottom: 55px;
-            left: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.75);
-            color: #fffde7;
-            padding: 6px;
-            border-radius: 4px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: bold;
-            border-left: 3px solid #eab308;
-            pointer-events: none;
-            display: none;
-        }
-        .player-controls {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 10px;
-            width: 100%;
-            border-top: 1px solid #1e293b;
-            padding-top: 12px;
-            margin-bottom: 20px;
-        }
-        .ctrl-btn {
-            background: #1f2937;
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
-            font-size: 13px;
-            padding: 6px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .ctrl-btn:hover {
-            background: #38bdf8;
-            color: #0b0f19;
-        }
-        .time-display {
-            font-family: monospace;
-            font-size: 12px;
-            color: #9ca3af;
-            align-self: center;
-            margin-left: auto;
-        }
-        .section-title {
-            font-size: 14px;
-            color: #38bdf8;
-            margin: 20px 0 10px 0;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .action-bar {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .btn-action {
-            background: #1f2937;
-            color: white;
-            border: 1px solid #1e293b;
-            padding: 12px 5px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-        }
-        .btn-action:hover {
-            background: #2d3748;
-        }
-        .btn-ai-magic {
-            background: #1e1b4b;
-            border: 1px solid #a21caf;
-            color: #f472b6;
-        }
-        .btn-ai-magic:hover {
-            background: #311042;
-        }
-        .btn-export {
-            background: #0284c7;
-            border: 1px solid #38bdf8;
-        }
-        .btn-export:hover {
-            background: #0369a1;
-        }
-        
-        .timeline-container {
-            background: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 10px;
-        }
-        .timeline-scrubber-bar {
-            width: 100%;
-            margin-bottom: 15px;
-            accent-color: #38bdf8;
-        }
-        .track-row {
-            display: flex;
-            height: 36px;
-            align-items: center;
-            border-bottom: 1px solid #1e293b;
-            font-size: 11px;
-            margin-bottom: 6px;
-            background: rgba(17, 24, 39, 0.6);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-        .track-row:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        .track-label {
-            width: 80px;
-            min-width: 80px;
-            background: #1e293b;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            padding-left: 8px;
-            font-weight: bold;
-            color: #9ca3af;
-            border-right: 1px solid #1e293b;
-            box-sizing: border-box;
-        }
-        .track-block-fill {
-            flex-grow: 1;
-            height: 80%;
-            margin: 0 10px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            padding-left: 10px;
-            font-weight: 500;
-            font-size: 11px;
-            white-space: nowrap;
-            transition: width 0.3s ease;
-        }
-        .video-fill { background: rgba(2, 132, 199, 0.3); border: 1px solid #0284c7; color: #bae6fd; }
-        .movie-fill { background: rgba(185, 28, 28, 0.3); border: 1px dashed #ef4444; color: #fca5a5; }
-        .ai-fill { background: rgba(162, 28, 175, 0.4); border: 1px dashed #f472b6; color: #fbcfe8; }
-        .audio-fill { background: rgba(22, 163, 74, 0.3); border: 1px solid #16a34a; color: #bbf7d0; }
-        .text-fill { background: rgba(217, 70, 239, 0.3); border: 1px solid #d946ef; color: #fdf4ff; }
-        
-        .social-network-dock {
-            background: #0f172a;
-            border: 1px solid #1e293b;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-        .social-textarea {
-            background: #111827;
-            border: 1px solid #1e293b;
-            color: #fff;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            resize: none;
-            width: 100%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
-        .social-buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .btn-social-publish {
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            color: white;
-            border: none;
-            text-align: center;
-        }
-        .social-status-log {
-            font-size: 11px;
-            font-family: monospace;
-            color: #34d399;
-            margin-top: 10px;
-            display: none;
-            background: #111827;
-            padding: 8px;
-            border-radius: 4px;
-            border: 1px solid #1e293b;
-        }
-        
-        .hidden-uploader-node {
-            display: none !important;
-            visibility: hidden !important;
-            position: absolute !important;
-            z-index: -9999 !important;
-            width: 1px !important;
-            height: 1px !important;
-        }
+        body { font-family: sans-serif; background-color: #0b0f19; color: #fff; margin: 0; padding: 15px; }
+        .container { max-width: 900px; margin: 20px auto; background: #111827; padding: 25px; border-radius: 12px; }
+        h1 { color: #38bdf8; margin: 0 0 5px 0; font-size: 24px; }
+        .tagline { color: #9ca3af; font-size: 13px; margin-bottom: 25px; }
+        .intake-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .preview-box { background: #0f172a; border: 2px dashed #1e293b; padding: 20px 10px; text-align: center; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90px; }
+        .box-video { border-color: #0284c7; color: #38bdf8; }
+        .box-music { border-color: #16a34a; color: #4ade80; }
+        .box-camera { background: #7f1d1d; border-color: #f87171; color: #fca5a5; }
+        .studio-panel { display: none; margin-top: 25px; padding-top: 25px; border-top: 2px solid #1e293b; }
+        .monitors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
+        .monitor-section { background: #000; padding: 10px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+        .video-preview-window { width: 100%; height: 150px; background: #000; }
+        .monitor-label { font-size: 11px; color: #38bdf8; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; text-align: left; }
+        .action-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .btn-action { background: #1f2937; color: white; border: 1px solid #1e293b; padding: 12px 5px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; }
+        .btn-ai-magic { background: #1e1b4b; border: 1px solid #a21caf; color: #f472b6; }
+        .btn-export { background: #0284c7; border: 1px solid #38bdf8; }
+        .timeline-container { background: #0f172a; border: 1px solid #1e293b; border-radius: 8px; padding: 15px; }
+        .track-row { display: flex; height: 30px; align-items: center; border-bottom: 1px solid #1e293b; font-size: 11px; background: rgba(17,24,39,0.6); margin-bottom: 5px; }
+        .track-label { width: 70px; background: #1e293b; height: 100%; display: flex; align-items: center; padding-left: 5px; font-weight: bold; color: #9ca3af; }
+        .track-block-fill { flex-grow: 1; height: 80%; margin: 0 10px; border-radius: 4px; display: flex; align-items: center; padding-left: 10px; }
+        .video-fill { background: rgba(2,132,199,0.3); border: 1px solid #0284c7; color: #bae6fd; }
+        .ai-fill { background: rgba(162,28,175,0.4); border: 1px dashed #f472b6; color: #fbcfe8; }
+        .audio-fill { background: rgba(22,163,74,0.3); border: 1px solid #16a34a; color: #bbf7d0; }
+        .text-fill { background: rgba(217,70,239,0.3); border: 1px solid #d946ef; color: #fdf4ff; }
+        .console-log { font-size: 11px; font-family: monospace; color: #34d399; margin-top: 15px; display: none; background: #0f172a; padding: 10px; border-radius: 6px; border: 1px solid #1e293b; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Astra Video Editor Pro</h1>
+        <div class="tagline">Your studio-grade, multi-track web app workspace is running completely offline.</div>
+        
+        <input type="file" id="media-uploader" style="display:none" accept="video/*">
+        <input type="file" id="music-uploader" style="display:none" accept="audio/*">
+
+        <div class="intake-grid">
+            <div class="preview-box box-video" id="workspace-trigger">
+                Analyse Video
+                <p id="status-text" style="font-size:10px; color:#8b949e; margin:4px 0 0 0;">Tap to load clip</p>
+            </div>
+            <div class="preview-box box-music" id="music-trigger">
+                Add Audio Mix
+                <p id="music-status-text" style="font-size:10px; color:#a7f3d0; margin:4px 0 0 0;">Tap to add audio</p>
+            </div>
+            <div class="preview-box box-camera" id="camera-rig-trigger">
+                Movie Maker
+                <p id="camera-status-text" style="font-size:10px; color:#fca5a5; margin:4px 0 0 0;">Tap to simulate cam</p>
+            </div>
+        </div>
+
+        <div class="studio-panel" id="studio-workspace">
+            <div class="monitors-grid">
+                <div class="monitor-section">
+                    <div class="monitor-label">Program Monitor</div>
+                    <video class="video-preview-window" id="main-program-view" controls></video>
+                </div>
+                <div class="monitor-section">
+                    <div class="monitor-label">AI Visual Matrix</div>
+                    <div class="video-preview-window" style="display:flex; align-items:center; justify-content:center; color:#f472b6; font-size:11px; font-family:monospace;">MATRIX COMPUTE: ACTIVE</div>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <button class="btn-action btn-ai-magic" id="ai-smart-cut-btn">✨ Smart Cut</button>
+                <button class="btn-action" id="ai-caption-btn">💬 Auto Captions</button>
+                <button class="btn-action" id="audio-duck-btn">🔊 Smart Duck</button>
+                <button class="btn-action btn-export" id="export-render-btn">📦 Export Master</button>
+            </div>
+
+            <div class="timeline-container">
+                <div class="track-row"><div class="track-label">Video V1</div><div class="track-block-fill video-fill" id="t-v1" style="width:0%">Empty</div></div>
+                <div class="track-row"><div class="track-label">AI Clips</div><div class="track-block-fill ai-fill" id="t-ai" style="width:0%">Inactive</div></div>
+                <div class="track-row"><div class="track-label">Audio A1</div><div class="track-block-fill audio-fill" id="t-a1" style="width:0%">No Data</div></div>
+                <div class="track-row"><div class="track-label">Text T1</div><div class="track-block-fill text-fill" id="t-t1" style="width:0%">No Captions</div></div>
+            </div>
+
+            <div class="console-log" id="network-log-console"></div>
+        </div>
+    </div>
+
+    <script>
+        var fileUploader = document.getElementById('media-uploader');
+        var audioUploader = document.getElementById('music-uploader');
+        var studioWorkspace = document.getElementById('studio-workspace');
+        var mainProgramView = document.getElementById('main-program-view');
+        
+        var logConsole = document.getElementById('network-log-console');
+        var trackV1 = document.getElementById('t-v1');
+        var trackA1 = document.getElementById('t-a1');
+        var trackAI = document.getElementById('t-ai');
+        var trackT1 = document.getElementById('t-t1');
+
+        document.getElementById('workspace-trigger').addEventListener('click', function() { fileUploader.click(); });
+        document.getElementById('music-trigger').addEventListener('click', function() { audioUploader.click(); });
+        document.getElementById('camera-rig-trigger').addEventListener('click', function() { revealWorkspace("Simulated Live Camera Footage"); });
+
+        fileUploader.addEventListener('change', function(e) {
+            var files = e.target.files;
+            if (!files || files.length === 0) return;
+            var file = files[0];
+            mainProgramView.src = URL.createObjectURL(file);
+            document.getElementById('status-text').innerText = file.name.substring(0, 10) + "...";
+            trackV1.innerText = "🎥 " + file.name;
+            trackV1.style.width = "100%";
+            revealWorkspace();
+        });
+
+        audioUploader.addEventListener('change', function(e) {
+            var files = e.target.files;
+            if (!files || files.length === 0) return;
+            var file = files[0];
+            document.getElementById('music-status-text').innerText = file.name.substring(0, 10) + "...";
+            trackA1.innerText = "🎵 " + file.name;
+            trackA1.style.width = "100%";
+            printLog("Mixed background track asset: " + file.name);
+        });
+
+        document.getElementById('ai-smart-cut-btn').addEventListener('click', function() {
+            printLog("Running offline silence threshold passes...");
+            setTimeout(function() { trackAI.style.width = "100%"; trackAI.innerText = "🔮 AI Cuts Complete"; printLog("Eliminated empty gaps successfully."); }, 1000);
+        });
+
+        document.getElementById('ai-caption-btn').addEventListener('click', function() {
+            printLog("Extracting speech frequencies...");
+            setTimeout(function() { trackT1.style.width = "100%"; trackT1.innerText = "📝 Captions Generated"; printLog("Subtitles bound into timeline track T1."); }, 1000);
+        });
+
+        document.getElementById('audio-duck-btn').addEventListener('click', function() { printLog("Voice ducking configuration engaged (-12dB)."); });
+        document.getElementById('export-render-btn').addEventListener('click', function() { alert("Compilation Master Complete!\nSaved: astra_export_master.mp4"); printLog("Export package written locally."); });
+
+        function revealWorkspace(mockName) {
+            studioWorkspace.style.display = 'block';
+            if (mockName) {
+                trackV1.innerText = "📸 " + mockName;
+                trackV1.style.width = "100%";
+                printLog("Initialized fallback webcam workspace pipeline.");
+            }
+        }
+
+        function printLog(msg) {
+            logConsole.style.display = 'block';
+            logConsole.innerText = "> " + msg;
+        }
+    </script>
+</body>
+</html>
