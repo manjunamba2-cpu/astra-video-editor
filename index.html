@@ -39,7 +39,7 @@
             font-size: 13px;
             margin-bottom: 15px;
         }
-        /* FIXED: Media Intake Grid Section - Forces 3 equal columns always */
+        /* Media Intake Grid Section - Forces 3 equal columns always */
         .intake-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -47,7 +47,7 @@
             margin-bottom: 15px;
             width: 100%;
         }
-        /* FIXED: Preview Box adjustments to prevent text wrapping constraints on small devices */
+        /* Preview Box adjustments to prevent text wrapping constraints on small devices */
         .preview-box {
             background: #0f172a;
             border: 2px dashed #1e293b;
@@ -294,13 +294,14 @@
         .audio-fill { background: rgba(22, 163, 74, 0.3); border: 1px solid #16a34a; color: #bbf7d0; }
         .text-fill { background: rgba(217, 70, 239, 0.3); border: 1px solid #d946ef; color: #fdf4ff; }
         
-        /* HARD OVERRIDE FIX: Insulate screen layout from browser file nodes */
+        /* Insulate screen layout from browser native upload items completely */
         #media-uploader, #music-uploader {
             display: none !important;
             opacity: 0 !important;
             position: absolute !important;
             width: 0 !important;
             height: 0 !important;
+            z-index: -9999 !important;
         }
     </style>
 </head>
@@ -309,6 +310,6 @@
         <h1>Astra Video Editor Pro</h1>
         <div class="tagline">Your studio-grade, multi-track web app workspace is running completely offline.</div>
         
-        <!-- Raw Inputs Kept Injected and Force-Hidden Via Styles Above -->
+        <!-- Force Hidden Inputs -->
         <input type="file" id="media-uploader" accept="video/*">
         <input type="file" id="music-uploader" accept="audio/*">
